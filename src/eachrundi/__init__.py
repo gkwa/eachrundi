@@ -81,8 +81,7 @@ def main() -> None:
         output_path = output_dir / template_file.replace(".j2", "")
         rendered = render_template(template_path, data)
         write_output(output_path, rendered)
-        # make all scripts executable
-        if "sh" in template_file:
+        if ".sh" in string.Tolower(template_file):
             output_path.chmod(0o755)
 
 
