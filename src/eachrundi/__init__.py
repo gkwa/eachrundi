@@ -1,5 +1,5 @@
+import argparse
 import pathlib
-import string
 import urllib.parse
 
 import jinja2
@@ -21,15 +21,17 @@ def url_encode(value):
     return urllib.parse.quote(str(value), safe="")
 
 
-def render_template(template_path: pathlib.Path, data: dict) -> str:
+def render_template(template_name: str, data: dict) -> str:
+    TEMPLATES_PATH = pathlib.Path(__file__).resolve().parent / "templates"
+    loader = jinja2.FileSystemLoader(searchpath=TEMPLATES_PATH)
     env = jinja2.Environment(
-        loader=jinja2.FileSystemLoader(template_path.parent),
+        loader=loader,
         undefined=FailUndefined,
         keep_trailing_newline=True,
     )
 
     env.filters["url_encode"] = url_encode
-    template = env.get_template(template_path.name)
+    template = env.get_template(template_name)
     return template.render(**data)
 
 
@@ -38,12 +40,25 @@ def write_output(output_path: pathlib.Path, content: str) -> None:
         f.write(content)
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Generate project files from templates"
+    )
+    parser.add_argument(
+        "--project",
+        default="streambox/faris",
+        help="Project name (default: streambox/faris)",
+    )
+    return parser.parse_args()
+
+
 def main() -> None:
-    templates_dir = pathlib.Path("src/eachrundi/templates")
+    args = parse_args()
+    project = args.project
+
     output_dir = pathlib.Path("output")
     output_dir.mkdir(exist_ok=True)
 
-    project = "streambox/faris"
     template_data = {
         "start.sh.j2": {},
         "requirements.yml.j2": {
@@ -79,13 +94,9 @@ def main() -> None:
     }
 
     for template_file, data in template_data.items():
-        template_path = templates_dir / template_file
+        data["project"] = project
         output_path = output_dir / template_file.replace(".j2", "")
-        rendered = render_template(template_path, data)
+        rendered = render_template(template_file, data)
         write_output(output_path, rendered)
         if ".sh" in template_file.lower():
             output_path.chmod(0o755)
-
-
-if __name__ == "__main__":
-    main()

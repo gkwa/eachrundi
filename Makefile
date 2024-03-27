@@ -6,6 +6,7 @@ test:
 	docker run --rm -ti emeraldchanter:latest ./run_test.sh
 
 pretty:
+	ruff check --fix
 	ruff format
 
 readme:

@@ -30,7 +30,7 @@ timeout --verbose 10s ansible-galaxy collection install --requirements-file=requ
 
 # file: ~/my_project/requirements.yml:
 collections:
-- name: 'https://gitlab.com/streambox/faris.git#collections/ansible_collections/foo'
+- name: 'https://gitlab.com/{{ project }}.git#collections/ansible_collections/foo'
   type: git
   version: master
 ```
