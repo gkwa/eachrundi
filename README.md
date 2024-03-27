@@ -16,7 +16,7 @@ Also I needed reason to learn jinja2 template inheritance better.  There are so 
 Learn how to use ansible galaxy to install ansible collection from a private gitlab repo.
 
 
-tl;dr:
+tl;dr, this works:
 ```log
 # file: ~/.gitconfig:
 [credential]
