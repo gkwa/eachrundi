@@ -5,6 +5,9 @@ test:
 	bash -x output/all.sh
 	docker run --rm -ti emeraldchanter:latest ./run_test.sh
 
+pretty:
+	ruff format
+
 readme:
 	eachrundi
 	cp output/README.md README.md
