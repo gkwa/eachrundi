@@ -9,6 +9,9 @@ I've never used ansible collections before, nor do I really know why molecule su
 
 Lots of fumbling later, I see how to get started.  Now I can start learning to use molecule and eventually iterate on `elasticsearch-certutil` which is my original motivation to use ansible here.
 
+
+Also i needed reason to learn jinja2 template inheritance better.  I still think jinja2 as magic.
+
 ## Purpose
 
 Learn how to use ansible galaxy to install ansible collection from a private gitlab repo.
