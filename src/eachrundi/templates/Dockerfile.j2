@@ -21,12 +21,6 @@ RUN echo cache-buster: $RANDOM
 COPY run-expanded /tmp/run-expanded
 RUN bash -ex /tmp/run-expanded
 
-# Create the entrypoint script
-RUN echo '#!/bin/bash\n\
-    source .venv/bin/activate\n\
-    timeout --verbose 10s ansible-galaxy collection install --requirements-file=requirements.yml\n\
-    bash' > entrypoint.sh && \
-    chmod +x entrypoint.sh
+COPY entrypoint.sh .
 
-# Set the entrypoint
 ENTRYPOINT ["./entrypoint.sh"]

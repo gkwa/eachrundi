@@ -14,4 +14,11 @@ cd $dir
 cat >$dir/Dockerfile <<'EOF'
 {% include 'Dockerfile.j2' %}
 EOF
+
+cat >$dir/entrypoint.sh <<'EOF'
+{% include 'entrypoint.sh.j2' %}
+EOF
+chmod +x $dir/entrypoint.sh
+
+
 {% endblock %}

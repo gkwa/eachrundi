@@ -1,14 +1,5 @@
 {% extends 'bash.sh.j2' %}
 
 {% block content %}
-rm -rf my_project
-rm -f start-expanded
-rm -f perms
-rm -rf mod
-rm -f payload[0-9][0-9]*
-rm -f cleanup
-rm -f token_cleanup
-rm -f command[0-9][0-9]*
-rm -f perms
-rm -f cleanup_files
+rm -rf $script_dir/output
 {% endblock %}

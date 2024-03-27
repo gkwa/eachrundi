@@ -4,12 +4,27 @@ import urllib.parse
 import jinja2.filters
 
 
+class FailUndefined(jinja2.Undefined):
+    def __str__(self):
+        raise ValueError(f"Variable {self._undefined_name} is undefined")
+
+    def __iter__(self):
+        raise ValueError(f"Variable {self._undefined_name} is undefined")
+
+    def __bool__(self):
+        return False
+
+
 def url_encode(value):
     return urllib.parse.quote(str(value), safe="")
 
 
 def render_template(template_path: pathlib.Path, data: dict) -> str:
-    env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_path.parent))
+    env = jinja2.Environment(
+        loader=jinja2.FileSystemLoader(template_path.parent),
+        undefined=FailUndefined,
+    )
+
     env.filters["url_encode"] = url_encode
     template = env.get_template(template_path.name)
     return template.render(**data)
@@ -27,6 +42,10 @@ def main() -> None:
 
     project = "streambox/faris"
     template_data = {
+        "start.sh.j2": {},
+        "requirements.yml.j2": {
+            "project": project,
+        },
         "cleanup_files.sh.j2": {},
         "command01.sh.j2": {
             "project": project,
@@ -38,13 +57,15 @@ def main() -> None:
             "payload": "payload02.json",
             "outfile": "command02-output.json",
         },
+        "entrypoint.sh.j2": {},
         "Dockerfile.j2": {},
-        "perms.sh.j2": {},
-        "requirements.yml.j2": {
+        "run.sh.j2": {
             "project": project,
         },
-        "run.sh.j2": {},
-        "script1.sh.j2": {},
+        "script1.sh.j2": {
+            "project": project,
+        },
+        "all.sh.j2": {},
         "token_cleanup.sh.j2": {},
     }
 
@@ -53,6 +74,9 @@ def main() -> None:
         output_path = output_dir / template_file.replace(".j2", "")
         rendered = render_template(template_path, data)
         write_output(output_path, rendered)
+        # make all scripts executable
+        if "sh" in template_file:
+            output_path.chmod(0o755)
 
 
 if __name__ == "__main__":

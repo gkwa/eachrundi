@@ -1,11 +1,10 @@
-{% extends "bash1.sh.j2" %}
+{% extends 'bash1.sh.j2' %}
 
 {% block header %}
-set -x
-set -e
-set -u
 {% endblock %}
 
 {% block content %}
-{{ header }}
+source .venv/bin/activate
+
+bash
 {% endblock %}

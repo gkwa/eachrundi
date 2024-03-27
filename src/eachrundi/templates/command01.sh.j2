@@ -1,7 +1,7 @@
 {% extends 'command.sh.j2' %}
 
 {% block payload %}
-cat >{{ payload }} <<EOF
+cat >{{ payload }} <<EOF_PAYLOAD
 {
  "name": "My deploy token",
  "expires_at": "2024-09-10",
@@ -10,4 +10,5 @@ cat >{{ payload }} <<EOF
    "write_package_registry"
  ]
 }
+EOF_PAYLOAD
 {% endblock %}
