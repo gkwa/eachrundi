@@ -49,14 +49,19 @@ def parse_args() -> argparse.Namespace:
         default="streambox/faris",
         help="Project name (default: streambox/faris)",
     )
+    parser.add_argument(
+        "--outdir",
+        default="output",
+        help="outdir name (default: output)",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
     project = args.project
+    output_dir = pathlib.Path(args.outdir)
 
-    output_dir = pathlib.Path("output")
     output_dir.mkdir(exist_ok=True)
 
     template_data = {
