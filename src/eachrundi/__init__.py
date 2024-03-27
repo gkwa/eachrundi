@@ -1,6 +1,7 @@
 import pathlib
+import urllib.parse, string
+
 import jinja2
-import urllib.parse
 import jinja2.filters
 
 
