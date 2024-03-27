@@ -1,22 +1,111 @@
 # eachrundi
 
+## Summary
+
+Learn how to use ansible galaxy to install ansible collections from a private gitlab repo.
+
+
 ## Motivation
 
-Ansible molecule [quickstart guide](https://ansible.readthedocs.io/projects/molecule/getting-started/) starts from perspective that you should run molecule with an ansible collection.
+### Learn about ansible collections
+
+
+Ansible molecule [quickstart guide](https://ansible.readthedocs.io/projects/molecule/getting-started/) starts from the perspective that you should run molecule with an ansible collection.
 
 I've never used ansible collections before, nor do I really know why molecule suggests them but I'm curious what benefit they provide over ansible roles--something I am familiar with.
 
 Lots of fumbling later, I see how to get started.  Now I can start learning to use molecule and eventually iterate on `elasticsearch-certutil` which is my original motivation to use ansible.
 
+### Learn about jinja2 template inheritance
+
 
 Also I needed reason to learn jinja2 template inheritance better.  There are so many places its helpful.
 
+
+### Learn about ansible execution environments
+
+Now that I know to fetch collections from a private gitlab repo, I expect
+this `execution-environment.yml` to work.
+
+...havent yet tried it, thats next step.
+
+
+
+
+
+```log
+# file: execution-environment.yml
+...
+  galaxy:
+    collections:
+    - name: 'https://gitlab.com/{{ project }}.git#collections/ansible_collections/foo'
+...
+```
+
+from https://ansible.readthedocs.io/en/latest/getting_started_ee/build_execution_environment/
+
+
+
+
+
+
+
+
+
+
+```log
+cat > execution-environment.yml<<EOF
+version: 3
+
+images:
+  base_image:
+    name: quay.io/fedora/fedora:latest
+
+dependencies:
+  ansible_core:
+    package_pip: ansible-core
+  ansible_runner:
+    package_pip: ansible-runner
+  system:
+  - openssh-clients
+  - sshpass
+  galaxy:
+    collections:
+    - name: community.postgresql
+EOF
+
+```
+
+
+
+
+
+
+
 ## Purpose
 
-Learn how to use ansible galaxy to install ansible collection from a private gitlab repo.
+Learn how to use ansible galaxy to install ansible collections from a private gitlab repo.
 
 
-tl;dr, this works:
+Create gitlab deploy token for your project (eg `{{ project }}`) on repository settings page manually
+or using glab cli.
+
+
+
+Manually, you'd go here: https://gitlab.com/streambox/faris/-/settings/repository
+
+Suppose your deploy token was this:
+```log
+username:
+gitlab+deploy-token-4103568
+
+token:
+gldt-yr9ZrxAKDFfai5EBKTnR
+```
+
+
+
+Then this works:
 ```log
 # file: ~/.gitconfig:
 [credential]
@@ -25,15 +114,23 @@ tl;dr, this works:
 # file: ~/.my-credentials:
 https://gitlab+deploy-token-4103568:gldt-yr9ZrxAKDFfai5EBKTnR@gitlab.com
 
-# file: ~/my_project/run_test.sh:
-timeout --verbose 10s ansible-galaxy collection install --requirements-file=requirements.yml
-
 # file: ~/my_project/requirements.yml:
 collections:
 - name: 'https://gitlab.com/{{ project }}.git#collections/ansible_collections/foo'
   type: git
   version: master
+
+# file: ~/my_project/run_test.sh:
+{% include 'install_collection.sh.j2' %}
 ```
+
+So, once those files are deployed, then you'd run
+
+```bash
+cd ~/my_project/
+{% include 'install_collection.sh.j2' %}
+```
+
 
 
 ## Usage
@@ -42,10 +139,10 @@ collections:
 
 `make test` does these steps:
 
-- create gitlab deploy token for project {{ project }} using glab cli
-- create docker container with ansible
-- put secret onto container
-- run script to install collection using `ansible-galaxy`
+- create gitlab deploy token for project `{{ project }}` using glab cli
+- create docker container with ansible, ansible-galaxy and molecule installed
+- put our new secret gitlab deploy token onto container
+- run `ansible-galaxy` to install collection from private gitlab repo
 
 
 
@@ -54,16 +151,48 @@ collections:
 make test
 ```
 
+### Whats with this weird directory structure and url?
+
+
+### Directory structure
+
+
+> One of the recommended ways to create a collection is to place it under a collections/ansible_collections directory. If you don't put your collection into a directory named ansible_collections, molecule won't be able to find your role.
+
+from  https://ansible.readthedocs.io/projects/molecule/getting-started/
+
+### `requirements.yml` has weird url
+
+```
+{% include 'requirements.yml.j2' %}
+```
+
+The format of the url is described in https://docs.ansible.com/ansible/latest/collections_guide/collections_installing.html#specifying-the-collection-location-within-the-git-repository
+
+
+### Inspection
+
+```bash
+make test
+docker run --rm -ti emeraldchanter:latest bash
+```
+
 ### Teardown
 
 
 
 `make cleanup` does these steps:
 
-- delete gitlab deploy token for project {{ project }}
+- delete gitlab deploy token for project `{{ project }}`
 - delete output directory
 
 
 ```bash
 make clean
 ```
+
+
+
+## Todo
+
+- https://www.google.com/search?q=github+markdown+toc+generator&oq=github+markdown+toc&gs_lcrp=EgZjaHJvbWUqBwgBEAAYgAQyCQgAEEUYORiABDIHCAEQABiABDIICAIQABgWGB4yCAgDEAAYFhgeMggIBBAAGBYYHjIGCAUQRRhBMgYIBhBFGEEyBggHEEUYQdIBCDYwOTdqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8
