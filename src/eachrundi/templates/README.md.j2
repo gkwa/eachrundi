@@ -5,16 +5,16 @@
 Ansible molecule quickstart guide from https://ansible.readthedocs.io/projects/molecule/getting-started/
 started from perspective that you should run molecule with an ansible collection.
 
-I've never used ansible collections before,  nor do I really know why molecule suggests them but I'm curious what benefit they provide over ansible roles--something I am familiar with.  .   Lots of fumbling later, I see how to get started.  Now I can start learning to use molecule and eventually iterate on `elasticsearch-certutil` which is my original motivation to use ansible here.
+I've never used ansible collections before, nor do I really know why molecule suggests them but I'm curious what benefit they provide over ansible roles--something I am familiar with.
+
+Lots of fumbling later, I see how to get started.  Now I can start learning to use molecule and eventually iterate on `elasticsearch-certutil` which is my original motivation to use ansible here.
 
 ## Purpose
 
-Learn how to use ansible galaxy to install ansible collection from a private gitlab repo
+Learn how to use ansible galaxy to install ansible collection from a private gitlab repo.
 
 
-
-tl;dr
-
+tl;dr:
 ```log
 # file: ~/.gitconfig:
 [credential]
