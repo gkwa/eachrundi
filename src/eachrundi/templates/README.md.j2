@@ -41,10 +41,10 @@ collections:
 
 `make test` does these steps:
 
-- create gitlab deploy token for project streambox/faris
+- create gitlab deploy token for project {{ project }}
 - create container with ansible
 - put secret onto container
-- run script: timeout --verbose 10s ansible-galaxy collection install --requirements-file=requirements.yml
+- run script: {% include 'install_collection.sh.j2' %}
 
 
 
@@ -59,7 +59,7 @@ make test
 
 `make cleanup` does these steps:
 
-- delete gitlab deploy token for project streambox/faris
+- delete gitlab deploy token for project {{ project }}
 - delete output directory
 
 

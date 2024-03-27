@@ -58,6 +58,9 @@ def main() -> None:
             "outfile": "command02-output.json",
         },
         "entrypoint.sh.j2": {},
+        "README.md.j2": {
+            "project": project,
+        },
         "Dockerfile.j2": {},
         "run_test.sh.j2": {},
         "run.sh.j2": {
