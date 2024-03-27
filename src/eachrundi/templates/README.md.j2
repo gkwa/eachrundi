@@ -33,7 +33,6 @@ collections:
   version: master
 ```
 
-- use glab to create deploy token
 
 ## Usage
 
@@ -41,10 +40,10 @@ collections:
 
 `make test` does these steps:
 
-- create gitlab deploy token for project {{ project }}
-- create container with ansible
+- create gitlab deploy token for project {{ project }} using glab cli
+- create docker container with ansible
 - put secret onto container
-- run script: {% include 'install_collection.sh.j2' %}
+- run script to install collection using `ansible-galaxy`
 
 
 
