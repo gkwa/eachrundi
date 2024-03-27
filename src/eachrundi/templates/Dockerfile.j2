@@ -22,5 +22,6 @@ COPY run-expanded /tmp/run-expanded
 RUN bash -ex /tmp/run-expanded
 
 COPY entrypoint.sh .
+COPY run_test.sh .
 
 ENTRYPOINT ["./entrypoint.sh"]

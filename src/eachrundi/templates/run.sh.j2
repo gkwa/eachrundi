@@ -1,9 +1,25 @@
 {% extends 'bash.sh.j2' %}
 
 {% block content %}
-set +x
+
+xtrace_enabled=false
+if [[ $- == *x* ]]; then
+    xtrace_enabled=true
+    set +x  # Disable verbose mode
+fi
+
+
 . .venv/bin/activate
-set -x
+
+
+# Re-enable verbose mode if it was previously enabled
+if $xtrace_enabled; then
+    set -x  # Enable verbose mode
+fi
+
+
+
+
 
 python --version
 ansible --version
@@ -18,8 +34,4 @@ https://$GITLAB_DEPLOY_USERNAME:$GITLAB_DEPLOY_TOKEN@gitlab.com
 EOF1
 
 git config --global credential.helper "store --file /root/.my-credentials"
-
-{% include 'galaxy_install_collection.sh.j2' %}
-
-echo $?
 {% endblock %}

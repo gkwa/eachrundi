@@ -6,7 +6,11 @@
 {% block content %}
 source .venv/bin/activate
 
-{% include 'galaxy_install_collection.sh.j2' %}
 
-bash
+if [ $# -eq 0 ]; then
+    bash
+else
+    exec "$@"
+fi
+
 {% endblock %}

@@ -14,5 +14,6 @@ export RANDOM=$RANDOM
 
 envsubst '$GITLAB_DEPLOY_TOKEN,$GITLAB_DEPLOY_USERNAME,$RANDOM' <start.sh >start-expanded
 envsubst '$GITLAB_DEPLOY_TOKEN,$GITLAB_DEPLOY_USERNAME,$RANDOM' <my_project/run >my_project/run-expanded
+cp run_test.sh my_project/run_test.sh
 
 {% endblock %}

@@ -59,6 +59,7 @@ def main() -> None:
         },
         "entrypoint.sh.j2": {},
         "Dockerfile.j2": {},
+        "run_test.sh.j2": {},
         "run.sh.j2": {
             "project": project,
         },
