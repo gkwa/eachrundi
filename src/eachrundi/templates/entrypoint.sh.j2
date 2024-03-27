@@ -6,5 +6,7 @@
 {% block content %}
 source .venv/bin/activate
 
+{% include 'galaxy_install_collection.sh.j2' %}
+
 bash
 {% endblock %}

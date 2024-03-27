@@ -16,10 +16,10 @@ EOF1
 cat >/root/.my-credentials <<EOF1
 https://$GITLAB_DEPLOY_USERNAME:$GITLAB_DEPLOY_TOKEN@gitlab.com
 EOF1
-cat /root/.my-credentials
 
 git config --global credential.helper "store --file /root/.my-credentials"
 
-timeout --verbose 10s ansible-galaxy collection install --requirements-file=requirements.yml
+{% include 'galaxy_install_collection.sh.j2' %}
+
 echo $?
 {% endblock %}

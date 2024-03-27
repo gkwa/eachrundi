@@ -66,7 +66,9 @@ def main() -> None:
             "project": project,
         },
         "all.sh.j2": {},
-        "token_cleanup.sh.j2": {},
+        "token_cleanup.sh.j2": {
+            "project": project,
+        },
     }
 
     for template_file, data in template_data.items():
