@@ -2,8 +2,7 @@
 
 ## Motivation
 
-Ansible molecule quickstart guide from https://ansible.readthedocs.io/projects/molecule/getting-started/
-started from perspective that you should run molecule with an ansible collection.
+Ansible molecule [quickstart guide](https://ansible.readthedocs.io/projects/molecule/getting-started/) starts from perspective that you should run molecule with an ansible collection.
 
 I've never used ansible collections before, nor do I really know why molecule suggests them but I'm curious what benefit they provide over ansible roles--something I am familiar with.
 
