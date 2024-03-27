@@ -23,6 +23,7 @@ def render_template(template_path: pathlib.Path, data: dict) -> str:
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(template_path.parent),
         undefined=FailUndefined,
+        keep_trailing_newline=True,
     )
 
     env.filters["url_encode"] = url_encode
