@@ -1,0 +1,17 @@
+{% extends 'bash.sh.j2' %}
+
+{% block content %}
+dir=$script_dir/my_project
+mkdir -p $dir
+
+cat >$dir/run <<'EOF'
+{% include 'run.sh.j2' %}
+EOF
+
+mkdir -p $dir
+cd $dir
+
+cat >$dir/Dockerfile <<'EOF'
+{% include 'Dockerfile.j2' %}
+EOF
+{% endblock %}

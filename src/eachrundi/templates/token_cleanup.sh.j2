@@ -1,0 +1,9 @@
+proj=streambox/faris
+projenc=$(printf %s $proj | jq -s -R -r @uri)
+
+deploy_tokens=$(glab api /projects/$projenc/deploy_tokens)
+token_ids=$(echo "$deploy_tokens" | jq -r '.[] | select(.name == "My deploy token") | .id')
+
+for token_id in $token_ids; do
+  glab api --method DELETE /projects/$projenc/deploy_tokens/$token_id
+done

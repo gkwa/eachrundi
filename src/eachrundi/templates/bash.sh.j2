@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -x
+set -e
+set -u
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+
+{% block content %}
+{% endblock %}

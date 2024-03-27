@@ -1,0 +1,25 @@
+{% extends 'bash.sh.j2' %}
+
+{% block content %}
+set +x
+. .venv/bin/activate
+set -x
+
+python --version
+ansible --version
+molecule --version
+
+cat >requirements.yml <<EOF1
+{% include 'requirements.yml.j2' %}
+EOF1
+
+cat >/root/.my-credentials <<EOF1
+https://$GITLAB_DEPLOY_USERNAME:$GITLAB_DEPLOY_TOKEN@gitlab.com
+EOF1
+cat /root/.my-credentials
+
+git config --global credential.helper "store --file /root/.my-credentials"
+
+timeout --verbose 10s ansible-galaxy collection install --requirements-file=requirements.yml
+echo $?
+{% endblock %}
