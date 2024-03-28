@@ -176,8 +176,8 @@ collections:
 The format of the url is described in https://docs.ansible.com/ansible/latest/collections_guide/collections_installing.html#specifying-the-collection-location-within-the-git-repository
 
 ```bash
-mkdir -p faris/collections/ansible_collections
-cd faris
+mkdir -p streambox/faris/collections/ansible_collections
+cd streambox/faris
 
 git init && git remote add origin git@gitlab.com:streambox/faris.git
 
