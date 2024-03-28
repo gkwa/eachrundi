@@ -1,24 +1,5 @@
 <!--TOC-->
 
-- [Summary](#summary)
-- [Motivation](#motivation)
-  - [Learn about ansible collections](#learn-about-ansible-collections)
-  - [Learn about jinja2 template inheritance](#learn-about-jinja2-template-inheritance)
-  - [Learn about ansible execution environments](#learn-about-ansible-execution-environments)
-- [Purpose](#purpose)
-- [Usage](#usage)
-  - [Setup](#setup)
-  - [Whats with this weird directory structure and url?](#whats-with-this-weird-directory-structure-and-url)
-  - [Directory structure](#directory-structure)
-  - [`requirements.yml` has weird url](#requirementsyml-has-weird-url)
-  - [Inspection](#inspection)
-  - [Teardown](#teardown)
-- [Todo](#todo)
-- [Miscellany](#miscellany)
-  - [Generate deploy keys (not deploy tokens)](#generate-deploy-keys-not-deploy-tokens)
-
-<!--TOC-->
-
 
 
 
