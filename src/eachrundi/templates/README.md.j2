@@ -169,6 +169,23 @@ from  https://ansible.readthedocs.io/projects/molecule/getting-started/
 
 The format of the url is described in https://docs.ansible.com/ansible/latest/collections_guide/collections_installing.html#specifying-the-collection-location-within-the-git-repository
 
+```bash
+mkdir -p faris/collections/ansible_collections
+cd faris
+
+git init && git remote add origin git@gitlab.com:{{ project }}.git
+
+rye init
+rye add molecule
+rye sync
+. .venv/bin/activate
+ansible --version
+molecule --version
+cd collections/ansible_collections
+ansible-galaxy collection init foo.bar # create new collection bar in namespace foo
+```
+
+With that this url will render https://gitlab.com/{{ project }}.git#collections/ansible_collections/foo
 
 ### Inspection
 
@@ -204,6 +221,8 @@ make clean
 ### Generate deploy keys (not deploy tokens)
 
 ```bash
-eachrundi; bash -x output/generate_deploy_keys.sh
-eachrundi; bash -x output/cleanup_deploy_keys.sh
+eachrundi; bash output/generate_deploy_keys.sh
+ls output/id_ed25519 output/id_ed25519.pub
+
+eachrundi; bash output/cleanup_deploy_keys.sh
 ```

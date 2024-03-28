@@ -175,6 +175,23 @@ collections:
 
 The format of the url is described in https://docs.ansible.com/ansible/latest/collections_guide/collections_installing.html#specifying-the-collection-location-within-the-git-repository
 
+```bash
+mkdir -p faris/collections/ansible_collections
+cd faris
+
+git init && git remote add origin git@gitlab.com:streambox/faris.git
+
+rye init
+rye add molecule
+rye sync
+. .venv/bin/activate
+ansible --version
+molecule --version
+cd collections/ansible_collections
+ansible-galaxy collection init foo.bar # create new collection bar in namespace foo
+```
+
+With that this url will render https://gitlab.com/streambox/faris.git#collections/ansible_collections/foo
 
 ### Inspection
 
@@ -202,3 +219,16 @@ make clean
 ## Todo
 
 - https://www.google.com/search?q=github+markdown+toc+generator&oq=github+markdown+toc&gs_lcrp=EgZjaHJvbWUqBwgBEAAYgAQyCQgAEEUYORiABDIHCAEQABiABDIICAIQABgWGB4yCAgDEAAYFhgeMggIBBAAGBYYHjIGCAUQRRhBMgYIBhBFGEEyBggHEEUYQdIBCDYwOTdqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8
+
+
+
+## Miscellany
+
+### Generate deploy keys (not deploy tokens)
+
+```bash
+eachrundi; bash output/generate_deploy_keys.sh
+ls output/id_ed25519 output/id_ed25519.pub
+
+eachrundi; bash output/cleanup_deploy_keys.sh
+```
