@@ -121,4 +121,4 @@ def main() -> None:
 
     readme = output_dir / "README.md"
     toc = md_toc.build_toc(readme)
-    # md_toc.write_string_on_file_between_markers(readme, toc, '<!--TOC-->')
+    md_toc.write_string_on_file_between_markers(readme, toc, '<!--TOC-->')
