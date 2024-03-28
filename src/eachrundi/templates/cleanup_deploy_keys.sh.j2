@@ -1,0 +1,25 @@
+# query project for deploy keys but only delete the
+# ones that contain the substring "eachrundi"
+
+# filtering on "eachrundi" to prevent disaster, perhaps this is unnecessary
+
+delete_deploy_key() {
+  local project_id=$1
+  local key_id=$2
+  local key_title=$3
+
+  echo "Deleting deploy key: $key_title (ID: $key_id)"
+  glab api --method DELETE "/projects/$project_id/deploy_keys/$key_id"
+}
+
+project_id=$(glab api /projects/{{ project|url_encode }} | jq -r '.id')
+deploy_keys=$(glab api "/projects/$project_id/deploy_keys")
+
+while IFS= read -r key; do
+  key_id=$(echo "$key" | jq -r '.id')
+  key_title=$(echo "$key" | jq -r '.title')
+
+  if [[ "$key_title" == *"eachrundi"* ]]; then
+    delete_deploy_key "$project_id" "$key_id" "$key_title"
+  fi
+done <<< "$(echo "$deploy_keys" | jq -c '.[]')"

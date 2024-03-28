@@ -1,0 +1,35 @@
+{% extends 'bash.sh.j2' %}
+{% block content %}
+
+{% block payload %}
+{% endblock %}
+
+payload_json_path={{ output_dir}}/payload_deploy_key.json
+response_json_path={{ output_dir}}/gen_deploy_key_output.json
+
+
+dir={{ output_dir }}
+keyfile=$dir/id_ed25519
+pubfile=$dir/id_ed25519.pub
+
+ssh-keygen -N '' -f $keyfile -t ed25519 -C "{{ title }}"
+
+
+deploy_key=$(cat $pubfile)
+cat >$payload_json_path <<EOF_PAYLOAD
+{
+  "title": "{{ title }}",
+  "key": "$deploy_key",
+  "can_push": {{ give_write_access | lower }}
+}
+EOF_PAYLOAD
+
+test -s $payload_json_path
+
+
+glab api --method POST --header "Content-Type: application/json" \
+  --input $payload_json_path \
+  /projects/{{ project|url_encode }}/deploy_keys | jq | tee $response_json_path
+
+test -s $response_json_path
+{% endblock %}
