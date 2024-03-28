@@ -2,7 +2,8 @@ import argparse
 import pathlib
 import urllib.parse
 
-import jinja2
+import jinja2, md_toc
+
 import jinja2.filters
 
 __project_name__ = "eachrundi"
@@ -116,3 +117,8 @@ def main() -> None:
         write_output(output_path, rendered)
         if ".sh" in template_file.lower():
             output_path.chmod(0o755)
+
+
+    readme = output_dir / "README.md"
+    toc = md_toc.build_toc(readme)
+    md_toc.write_string_on_file_between_markers(readme, toc, '<!--TOC-->')
