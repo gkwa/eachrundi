@@ -196,6 +196,8 @@ collections:
 
 The format of the url is described in https://docs.ansible.com/ansible/latest/collections_guide/collections_installing.html#specifying-the-collection-location-within-the-git-repository
 
+The # hash is a fragment.  The fragment is used to specify the path within the git repository where the collection is located.
+
 ```bash
 mkdir -p streambox/faris/collections/ansible_collections
 cd streambox/faris
